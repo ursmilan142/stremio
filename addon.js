@@ -5,6 +5,7 @@ const builder = new addonBuilder({
     id: 'org.example.milanaddon',
     version: '1.0.0',
     name: 'Milan Addon',
+    logo:'https://github.com/ursmilan142/stremio/blob/53c8ee3a76cea216687d49292d37250f2cb2ee86/logo.jpg',
     description: 'An addon that provides streaming links.',
     catalogs: [],
     resources: ['stream'],
