@@ -5,7 +5,7 @@ const builder = new addonBuilder({
     id: 'org.example.milanaddon',
     version: '1.0.0',
     name: 'Milan Addon',
-    logo:'https://github.com/ursmilan142/stremio/blob/53c8ee3a76cea216687d49292d37250f2cb2ee86/logo.jpg',
+    logo: 'https://raw.githubusercontent.com/ursmilan142/stremio/53c8ee3a76cea216687d49292d37250f2cb2ee86/logo.jpg',
     description: 'An addon that provides streaming links.',
     catalogs: [],
     resources: ['stream'],
@@ -15,18 +15,31 @@ const builder = new addonBuilder({
 builder.defineStreamHandler(async ({ type, id }) => {
     if (type === 'movie') {
         try {
-            const response = await axios.get(`https://https://milan-s-addon.onrender.com/get_m3u8_url?tmdb_id=${id}`);
+            // Fixed URL (removed duplicate https://)
+            const response = await axios.get(`https://milan-s-addon.onrender.com/get_m3u8_url?tmdb_id=${id}`);
+            
             const data = response.data;
-            if (data.master_url) {
+            
+            // Added better error handling
+            if (data && data.variants) {
                 return {
-                    streams: Object.values(data.variants).map(variant => ({
-                        title: `VidLink - ${variant.bandwidth} bps`,
+                    streams: Object.entries(data.variants).map(([resolution, variant]) => ({
+                        title: `VidLink - ${resolution} (${variant.bandwidth}bps)`,
                         url: variant.url,
+                        // Recommended to add these properties for better Stremio compatibility
+                        behaviorHints: {
+                            proxyHeaders: true,
+                            notWebReady: true
+                        }
                     })),
                 };
             }
         } catch (error) {
-            console.error(error);
+            console.error('Error fetching streams:', error.message);
+            if (error.response) {
+                console.error('Response status:', error.response.status);
+                console.error('Response data:', error.response.data);
+            }
         }
     }
     return { streams: [] };
