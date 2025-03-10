@@ -3,16 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Premium Stremio Addons Collection">
-    <title>Stremio Addons Hub</title>
+    <meta name="description" content="Advanced Stremio Addons Platform">
+    <meta name="author" content="Senior Dev">
+    <title>Stremio Addons Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
-            --primary-color: #007BFF;
-            --secondary-color: #333;
-            --background-color: #f5f7fa;
+            --primary: #007BFF;
+            --secondary: #ffffff;
+            --text: #333333;
+            --background: #f0f2f5;
             --card-bg: #ffffff;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --primary: #66b0ff;
+            --secondary: #1a1a1a;
+            --text: #e0e0e0;
+            --background: #121212;
+            --card-bg: #1e1e1e;
+            --shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
         }
 
         * {
@@ -22,157 +34,204 @@
         }
 
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            line-height: 1.6;
-            background-color: var(--background-color);
-            color: var(--secondary-color);
-            padding: 0 20px;
+            font-family: 'Inter', -apple-system, Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            transition: var(--transition);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 3rem 1.5rem;
         }
 
         header {
             text-align: center;
-            margin-bottom: 40px;
-            animation: fadeInDown 1s ease-out;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            color: var(--secondary-color);
-            margin-bottom: 15px;
+            margin-bottom: 4rem;
             position: relative;
         }
 
-        h1::after {
-            content: '';
-            width: 60px;
-            height: 4px;
-            background: var(--primary-color);
+        .theme-toggle {
             position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            margin-bottom: 1rem;
+            background: linear-gradient(120deg, var(--primary), var(--text));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: slideIn 1s ease-out;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .addon-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
         }
 
         .addon-card {
             background: var(--card-bg);
-            border-radius: 10px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 1.5rem;
             box-shadow: var(--shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: cardFadeIn 0.5s ease-out forwards;
+            animation-delay: calc(var(--order) * 0.1s);
+        }
+
+        .addon-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+            opacity: 0.7;
         }
 
         .addon-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(0);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
         }
 
         .addon-title {
-            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
         }
 
         .addon-link {
-            color: var(--primary-color);
+            color: var(--primary);
             text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            transition: var(--transition);
         }
 
         .addon-link:hover {
-            color: #0056b3;
+            color: color-mix(in srgb, var(--primary) 80%, var(--text));
             text-decoration: underline;
         }
 
         .addon-desc {
-            color: #666;
             font-size: 0.95rem;
+            line-height: 1.5;
+            opacity: 0.85;
         }
 
         .note {
-            background: #fff3cd;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #ffca2c;
-            animation: fadeIn 1.5s ease-out;
+            background: color-mix(in srgb, var(--primary) 10%, var(--card-bg));
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 6px solid var(--primary);
+            margin-bottom: 2rem;
+            animation: slideUp 1s ease-out;
         }
 
         footer {
             text-align: center;
-            margin-top: 40px;
-            padding: 20px 0;
-            color: #777;
+            padding: 2rem 0;
             font-size: 0.9rem;
+            opacity: 0.7;
+            border-top: 1px solid color-mix(in srgb, var(--text) 20%, transparent);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @keyframes slideIn {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes cardFadeIn {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 20px 15px;
-            }
-            h1 {
-                font-size: 2rem;
-            }
+            h1 { font-size: 2.25rem; }
+            .container { padding: 2rem 1rem; }
+            .addon-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Milan's Stremio Addon</h1>
-            <p>Your premium collection of Stremio enhancements</p>
+            <button class="theme-toggle" aria-label="Toggle theme">
+                <i class="fas fa-moon"></i>
+            </button>
+            <h1>Milan Addon</h1>
+            <p class="subtitle">Elevate your streaming experience with expertly crafted addons</p>
         </header>
 
         <section class="addon-grid">
-            <div class="addon-card">
+            <article class="addon-card" style="--order: 1;">
                 <div class="addon-title">
-                    <i class="fas fa-plug"></i>
+                    <i class="fas fa-rocket"></i>
                     <a href="stremio://23853b2c30c67f3b878d65c70a67e70c.serveo.net/manifest.json" class="addon-link">
-                        My Custom Addon
+                        Free Stream Addon
                     </a>
                 </div>
                 <p class="addon-desc">
-                    A professionally crafted Stremio addon hosted on Serveo, delivering seamless streaming enhancements.
+                    Engineered for performance, this Serveo-hosted addon delivers cutting-edge streaming capabilities with unmatched reliability.
                 </p>
-            </div>
+            </article>
         </section>
 
-        <div class="note">
-            <strong>Note:</strong> Ensure Stremio is installed on your device. Clicking the addon link will launch Stremio and prompt installation automatically.
-        </div>
+        <aside class="note">
+            <strong>Pro Tip:</strong> Stremio must be installed. Click the addon link to seamlessly integrate it via the Stremio protocol handler.
+        </aside>
 
         <footer>
-            © 2025 Stremio Addon | Crafted with expertise
+            © 2025 Stremio Addons Pro | Designed & Developed by a Senior Web Engineer
         </footer>
     </div>
+
+    <script>
+        const toggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+
+        toggle.addEventListener('click', () => {
+            body.dataset.theme = body.dataset.theme === 'dark' ? 'light' : 'dark';
+            toggle.innerHTML = body.dataset.theme === 'dark' 
+                ? '<i class="fas fa-sun"></i>' 
+                : '<i class="fas fa-moon"></i>';
+        });
+    </script>
 </body>
 </html>
