@@ -3,34 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stremio Addons</title>
+    <meta name="description" content="Premium Stremio Addons Collection">
+    <title>Stremio Addons Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #007BFF;
+            --secondary-color: #333;
+            --background-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--secondary-color);
+            padding: 0 20px;
         }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
         h1 {
-            color: #333;
-        }
-        .addon {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
             margin-bottom: 15px;
+            position: relative;
         }
-        .addon a {
-            color: #007BFF;
+
+        h1::after {
+            content: '';
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .addon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .addon-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .addon-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .addon-title {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .addon-link {
+            color: var(--primary-color);
             text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
         }
-        .addon a:hover {
+
+        .addon-link:hover {
+            color: #0056b3;
             text-decoration: underline;
+        }
+
+        .addon-desc {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .note {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffca2c;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px 0;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Stremio Addons</h1>
-    <p>Click on the addon below to install it in Stremio:</p>
+    <div class="container">
+        <header>
+            <h1>Milan's Stremio Addon</h1>
+            <p>Your premium collection of Stremio enhancements</p>
+        </header>
 
-    <div class="addon">
-        <a href="https://23853b2c30c67f3b878d65c70a67e70c.serveo.net/manifest.json">My Custom Addon</a>
-        <p>This is a custom Stremio addon hosted on Serveo.</p>
+        <section class="addon-grid">
+            <div class="addon-card">
+                <div class="addon-title">
+                    <i class="fas fa-plug"></i>
+                    <a href="stremio://23853b2c30c67f3b878d65c70a67e70c.serveo.net/manifest.json" class="addon-link">
+                        My Custom Addon
+                    </a>
+                </div>
+                <p class="addon-desc">
+                    A professionally crafted Stremio addon hosted on Serveo, delivering seamless streaming enhancements.
+                </p>
+            </div>
+        </section>
+
+        <div class="note">
+            <strong>Note:</strong> Ensure Stremio is installed on your device. Clicking the addon link will launch Stremio and prompt installation automatically.
+        </div>
+
+        <footer>
+            © 2025 Stremio Addon | Crafted with expertise
+        </footer>
     </div>
 </body>
 </html>
