@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Advanced Stremio Addons Platform">
-    <meta name="author" content="Senior Dev">
-    <title>Stremio Addons Pro</title>
+    <meta name="description" content="Milan's Advanced Stremio Addons">
+    <meta name="author" content="Milan">
+    <title>Milan's Addons</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
@@ -40,12 +40,15 @@
             transition: var(--transition);
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
         }
 
         .container {
             max-width: 1280px;
             margin: 0 auto;
             padding: 3rem 1.5rem;
+            position: relative;
+            z-index: 1;
         }
 
         header {
@@ -79,7 +82,7 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: slideIn 1s ease-out;
+            animation: slideIn 1s ease-out, gradientShift 5s infinite alternate;
         }
 
         .subtitle {
@@ -106,7 +109,12 @@
             transform: translateY(20px);
             opacity: 0;
             animation: cardFadeIn 0.5s ease-out forwards;
-            animation-delay: calc(var(--order) * 0.1s);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .addon-card:hover {
+            transform: translateY(0) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
         }
 
         .addon-card::before {
@@ -118,11 +126,6 @@
             height: 4px;
             background: linear-gradient(90deg, var(--primary), transparent);
             opacity: 0.7;
-        }
-
-        .addon-card:hover {
-            transform: translateY(0);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
         }
 
         .addon-title {
@@ -143,6 +146,28 @@
         .addon-link:hover {
             color: color-mix(in srgb, var(--primary) 80%, var(--text));
             text-decoration: underline;
+        }
+
+        .addon-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            color: var(--secondary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .copy-btn:hover {
+            background: color-mix(in srgb, var(--primary) 80%, var(--text));
         }
 
         .addon-desc {
@@ -168,6 +193,16 @@
             border-top: 1px solid color-mix(in srgb, var(--text) 20%, transparent);
         }
 
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.1;
+        }
+
         @keyframes slideIn {
             from { transform: translateY(-30px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
@@ -182,6 +217,11 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
         @media (max-width: 768px) {
             h1 { font-size: 2.25rem; }
             .container { padding: 2rem 1rem; }
@@ -190,35 +230,47 @@
     </style>
 </head>
 <body>
+    <canvas id="particles"></canvas>
     <div class="container">
         <header>
             <button class="theme-toggle" aria-label="Toggle theme">
                 <i class="fas fa-moon"></i>
             </button>
-            <h1>Milan's Addon</h1>
+            <h1>Milan's Addons</h1>
             <p class="subtitle">Elevate your streaming experience with expertly crafted addons</p>
         </header>
 
         <section class="addon-grid">
-            <article class="addon-card" style="--order: 1;">
+            <article class="addon-card">
                 <div class="addon-title">
                     <i class="fas fa-rocket"></i>
                     <a href="stremio://23853b2c30c67f3b878d65c70a67e70c.serveo.net/manifest.json" class="addon-link">
-                        Free Stream Addon
+                        Free Streams Addon
                     </a>
                 </div>
                 <p class="addon-desc">
-                    Engineered for performance, this Serveo-hosted addon delivers cutting-edge streaming capabilities with unmatched reliability.
+                    Engineered for performance, this Serveo-hosted addon delivers cutting-edge streaming capabilities.
                 </p>
+                <div class="addon-options">
+                    <a href="stremio://23853b2c30c67f3b878d65c70a67e70c.serveo.net/manifest.json" class="addon-link">
+                        <i class="fas fa-desktop"></i> Install in Stremio App
+                    </a>
+                    <a href="https://23853b2c30c67f3b878d65c70a67e70c.serveo.net/manifest.json" class="addon-link">
+                        <i class="fas fa-globe"></i> Install in Browser
+                    </a>
+                    <button class="copy-btn" data-link="stremio://23853b2c30c67f3b878d65c70a67e70c.serveo.net/manifest.json">
+                        Copy Link
+                    </button>
+                </div>
             </article>
         </section>
 
         <aside class="note">
-            <strong>Pro Tip:</strong> Stremio must be installed. Click the addon link to seamlessly integrate it via the Stremio protocol handler.
+            <strong>Pro Tip:</strong> Use "Install in Stremio App" for the app, or "Install in Browser" for web use. Copy the link for manual setup.
         </aside>
 
         <footer>
-            © 2025 Milan's Stremio Addons | Designed & Developed by Milan
+            © 2025 Milan's Addons | Designed & Developed by Milan
         </footer>
     </div>
 
@@ -232,6 +284,45 @@
                 ? '<i class="fas fa-sun"></i>' 
                 : '<i class="fas fa-moon"></i>';
         });
+
+        const copyBtn = document.querySelector('.copy-btn');
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(copyBtn.dataset.link);
+            copyBtn.textContent = 'Copied!';
+            setTimeout(() => copyBtn.textContent = 'Copy Link', 2000);
+        });
+
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 1,
+                speedX: Math.random() * 0.5 - 0.25,
+                speedY: Math.random() * 0.5 - 0.25
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'var(--primary)';
+                ctx.fill();
+                p.x += p.speedX;
+                p.y += p.speedY;
+                if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
     </script>
 </body>
 </html>
