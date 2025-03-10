@@ -215,13 +215,6 @@
     </div>
 
     <script>
-        const copyBtn = document.querySelector('.copy-btn');
-        copyBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(copyBtn.dataset.link);
-            copyBtn.textContent = 'Copied!';
-            setTimeout(() => copyBtn.textContent = 'Copy Link', 2000);
-        });
-
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
