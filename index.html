@@ -58,6 +58,19 @@
             animation: slideIn 1s ease-out;
         }
 
+        .fancy-text {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.25rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .fancy-text:hover {
+            color: color-mix(in srgb, var(--primary) 80%, var(--text));
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
         .subtitle {
             font-size: 1.2rem;
             opacity: 0.8;
@@ -189,11 +202,12 @@
             <article class="addon-card">
                 <div class="addon-title">
                     <i class="fas fa-rocket"></i>
-                    <a>Free Streams Addon</a>
+                    <a class="fancy-text">Free Streams Addon</a>
                 </div>
                 <p class="addon-desc">
                     Engineered for performance, this Serveo-hosted addon delivers cutting-edge streaming capabilities.
                 </p>
+                <p></p>
                 <div class="addon-options">
                     <a href="stremio://23853b2c30c67f3b878d65c70a67e70c.serveo.net/manifest.json" class="addon-link">
                         <i class="fas fa-desktop"></i> Install in Stremio App
