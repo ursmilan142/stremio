@@ -152,11 +152,11 @@
         </header>
 
         <section class="addon-grid">
-            <div class="addon-card">
+            <div class="addon-card" data-base-url="b6ec47b7cdd29aacb734153a596e6b97.serveo.net">
                 <div class="addon-title">Free Streams Addon</div>
                 <p>Engineered for performance, this Serveo-hosted addon delivers cutting-edge streaming capabilities.</p>
-                <a href="stremio://b6ec47b7cdd29aacb734153a596e6b97.serveo.net/manifest.json/manifest.json" class=" clr1 addon-link"><i class="fas fa-desktop"></i> Install in Stremio App</a>
-                <a href="https://web.stremio.com/#/addons?addon=https://b6ec47b7cdd29aacb734153a596e6b97.serveo.net/manifest.json" class="clr2 addon-link"><i class="fas fa-globe"></i> Install in Browser</a>
+                <a href="#"><i class="fas fa-desktop"></i> Install in Stremio App</a>
+                <a href="#" class="clr2 addon-link"><i class="fas fa-globe"></i> Install in Browser</a>
             </div>
         </section>
 
@@ -185,6 +185,23 @@
                     push: { particles_nb: 4 }
                 }
             }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+          const container = document.querySelector('.stremio-links');
+          const baseUrl = container.dataset.baseUrl;
+          
+          const links = {
+            app: `stremio://${baseUrl}/manifest.json`,
+            web: `https://web.stremio.com/#/addons?addon=https://${baseUrl}/manifest.json`
+          };
+        
+          container.querySelectorAll('a').forEach(link => {
+            const type = link.dataset.type;
+            if (links[type]) {
+              link.href = links[type];
+            }
+          });
         });
 
     </script>
